@@ -1,0 +1,779 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "ChatGPT APIs",
+    "description": "Documentation created by <b> digialpha.co</b>"
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Role",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Login",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "scheme": "bearer",
+      "name": "Authorization",
+      "description": "Bearer token authorization"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/emailTemplate": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "User login",
+        "parameters": [
+          {
+            "name": "object",
+            "in": "body",
+            "description": "User login request",
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LoginSuccessResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/LoginErrorResponse"
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "$ref": "#/definitions/LoginValidationError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/LoginServerError"
+            }
+          }
+        }
+      }
+    },
+    "/api/getRoles": {
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get list of role api",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number to be fetched",
+            "example": 1,
+            "default": 1,
+            "type": "string"
+          },
+          {
+            "name": "perpage",
+            "in": "query",
+            "description": "Results per page",
+            "example": 10,
+            "default": 10,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RoleListRequest"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/getRoleById/{id}": {
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get list of role api",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorisedResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/createRole": {
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Create new role api",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "object",
+            "in": "body",
+            "description": "Create new role request",
+            "schema": {
+              "$ref": "#/definitions/CreateRoleRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorisedResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/updateRole/{id}": {
+      "put": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get list of role api",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "roleName": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/deleteRole/{id}": {
+      "put": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get list of role api",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/updateBodyByRole": {
+      "put": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get list of role api",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "roleName": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/getUsers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Get list User",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number to be fetched",
+            "example": 1,
+            "default": 1,
+            "type": "string"
+          },
+          {
+            "name": "perpage",
+            "in": "query",
+            "description": "Results per page",
+            "example": 10,
+            "default": 10,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserListRequest"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerError"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/sendEmail": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/getServices": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LoginSuccessResponse": {
+      "type": "object",
+      "properties": {
+        "sucess": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "8aaf5e3a-9d6b-499a-aede-937863af59e4"
+            },
+            "email": {
+              "type": "string",
+              "example": "john@exmaple.com"
+            },
+            "firstName": {
+              "type": "string",
+              "example": "John"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "Doe"
+            },
+            "userRole": {
+              "type": "string",
+              "example": "Role"
+            },
+            "token": {
+              "type": "string",
+              "example": "abcabcabcabcabcabcabcabcabcabcvvvvabcabcabcabcvvvvvvabcabcabcabcabcabcabcabc"
+            }
+          }
+        }
+      }
+    },
+    "LoginValidationError": {
+      "type": "object",
+      "properties": {
+        "_original": {
+          "type": "object",
+          "properties": {
+            "password": {
+              "type": "string",
+              "example": "Demo@123"
+            }
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Email is required"
+              },
+              "path": {
+                "type": "array",
+                "example": [
+                  "email"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "type": {
+                "type": "string",
+                "example": "any.required"
+              },
+              "context": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "example": "email"
+                  },
+                  "key": {
+                    "type": "string",
+                    "example": "email"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "LoginErrorResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Credientials does not match our records"
+        }
+      }
+    },
+    "LoginServerError": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Something went wrong!"
+        }
+      }
+    },
+    "UnauthorisedResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Unauthrized"
+        }
+      }
+    },
+    "BadRequestResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "User already exists"
+        }
+      }
+    },
+    "RoleListRequest": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "Xxxxx-xxx"
+              },
+              "roleName": {
+                "type": "string",
+                "example": "asss-s-d-"
+              }
+            }
+          }
+        },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "number",
+              "example": 1
+            },
+            "perPage": {
+              "type": "number",
+              "example": 10
+            },
+            "totalPages": {
+              "type": "number",
+              "example": 1
+            },
+            "totalRecords": {
+              "type": "number",
+              "example": 8
+            },
+            "startRecord": {
+              "type": "number",
+              "example": 1
+            },
+            "endRecord": {
+              "type": "number",
+              "example": 8
+            }
+          }
+        }
+      }
+    },
+    "UserListRequest": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "11-1-xxx"
+              },
+              "firstName": {
+                "type": "string",
+                "example": "asd"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "adh"
+              },
+              "email": {
+                "type": "string",
+                "example": "asdf@gmail.com"
+              },
+              "password": {
+                "type": "string",
+                "example": "XxXXX"
+              },
+              "userRole": {
+                "type": "string",
+                "example": "admin"
+              },
+              "status": {
+                "type": "string",
+                "example": "true"
+              }
+            }
+          }
+        },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "number",
+              "example": 1
+            },
+            "perPage": {
+              "type": "number",
+              "example": 10
+            },
+            "totalPages": {
+              "type": "number",
+              "example": 1
+            },
+            "totalRecords": {
+              "type": "number",
+              "example": 8
+            },
+            "startRecord": {
+              "type": "number",
+              "example": 1
+            },
+            "endRecord": {
+              "type": "number",
+              "example": 8
+            }
+          }
+        }
+      }
+    },
+    "InternalServerError": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Internal server error"
+        }
+      }
+    },
+    "LoginRequest": {
+      "type": "object",
+      "description": "Login request",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User login email",
+          "example": "user@example.com"
+        },
+        "password": {
+          "type": "string",
+          "description": "User login password",
+          "min": 8,
+          "max": 255,
+          "example": "password"
+        }
+      }
+    }
+  },
+  "schema": [
+    "http"
+  ]
+}

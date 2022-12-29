@@ -1,0 +1,12 @@
+{{> lovedChamps}}
+{{> hatedChamps}}
+
+
+<h1>Hello, {{data.name}}!</h1>
+<p>You are {{data.age}} years old and work as a {{data.occupation}}.</p>
+<p>Some of your hobbies include:</p>
+<ul>
+  {{#each data.hobbies}}
+    <li>{{this}}</li>
+  {{/each}}
+</ul>

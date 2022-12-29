@@ -1,6 +1,6 @@
 
 const { expectCt } = require('helmet');
-const mathOperations = require('../integration/calculator')
+const mathOperations = require('./calculator.jss')
 
 
 describe("Calculator Tests",() =>{
